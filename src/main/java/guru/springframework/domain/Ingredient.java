@@ -1,5 +1,6 @@
 package guru.springframework.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Data
+@Builder
 public class Ingredient {
 
     @Id

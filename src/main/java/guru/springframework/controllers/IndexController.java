@@ -22,10 +22,10 @@ public class IndexController {
 
     @RequestMapping({"", "/", "index"})
     public String getIndexPage(){
-        Optional<Category> category = categoryRepository.findByDescription("Vietnamese");
-        Optional<UnitOfMeasure> uom = unitOfMeasureRepository.findByDescription("Cup");
-        System.out.println("Cat ID is :" + category.get().getId());
-        System.out.println("UOM ID is :" + uom.get().getId());
+//        Optional<Category> category = categoryRepository.findByDescription("Vietnamese");
+//        Optional<UnitOfMeasure> uom = unitOfMeasureRepository.findByDescription("Cup");
+//        System.out.println("Cat ID is :" + category.get().getId());
+//        System.out.println("UOM ID is :" + uom.get().getId());
         return "index";
     }
 }

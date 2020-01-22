@@ -1,12 +1,16 @@
 package guru.springframework.domain;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Singular;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Data
+@Builder
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,20 +22,25 @@ public class Recipe {
     private Integer serving;
     private String source;
     private String url;
+    @Lob
     private String direction;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    @Singular(value="ingredient")
+    private Set<Ingredient> ingredients = new HashSet<>();
+
     @ManyToMany()
     @JoinTable(name = "recipe_category",
                 joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories;
+    @Singular(value="category")
+    private Set<Category> categories = new HashSet<>();
 
     @Lob
     Byte[] image;
+
     @Enumerated(value = EnumType.STRING)
     Difficulty difficulty;
 }

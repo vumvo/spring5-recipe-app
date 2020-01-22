@@ -1,10 +1,12 @@
 package guru.springframework.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
 public class Notes  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,5 +15,5 @@ public class Notes  {
     @OneToOne
     private Recipe recipe;
     @Lob
-    private String recipeNotes;
+    private String recipeNote;
 }
