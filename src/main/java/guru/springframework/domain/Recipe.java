@@ -1,8 +1,6 @@
 package guru.springframework.domain;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Singular;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,6 +9,8 @@ import java.util.Set;
 @Entity
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
