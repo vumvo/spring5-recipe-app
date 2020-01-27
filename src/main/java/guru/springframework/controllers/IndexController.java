@@ -15,7 +15,7 @@ public class IndexController {
 
     @RequestMapping({"", "/", "index"})
     public String getIndexPage(Model model) {
-        model.addAttribute("recipes", recipeService.getRecipese());
+        model.addAttribute("recipes", recipeService.getRecipes());
 //        Optional<Category> category = categoryRepository.findByDescription("Vietnamese");
 //        Optional<UnitOfMeasure> uom = unitOfMeasureRepository.findByDescription("Cup");
 //        Optional<Recipe> recipe = recipeRepository.findById();

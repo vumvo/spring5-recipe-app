@@ -2,14 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Recipse</title>
+    <title>Recipes</title>
 </head>
 <body>
     <table>
         <tr></tr>
+        <!--/*@thymesVar id="recipes" type=""*/-->
         <tr th:each="recipe : ${recipes}">
-            <td th:text="${recipe.id}"/>
-            <td th:text="${recipe.description}"></td>
+            <td th:text="${recipe.id}">123</td>
+            <td th:text="${recipe.description}">Tasty Goodness</td>
         </tr>
     </table>
 </body>

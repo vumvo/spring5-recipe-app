@@ -32,10 +32,10 @@ public class Recipe {
     @Singular(value="ingredient")
     private Set<Ingredient> ingredients = new HashSet<>();
 
+    @Singular(value="category")
     @ManyToMany()
     @JoinTable(name = "recipe_category",
-                joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    @Singular(value="category")
+            joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
     @Lob
@@ -43,4 +43,15 @@ public class Recipe {
 
     @Enumerated(value = EnumType.STRING)
     Difficulty difficulty;
+
+    public void setNotes(Notes notes){
+        this.notes = notes;
+        notes.setRecipe(this);
+    }
+
+    public Recipe addingIngredient(Ingredient ingredient) {
+        ingredient.setRecipe(this);
+        ingredients.add(ingredient);
+        return this;
+    }
 }
