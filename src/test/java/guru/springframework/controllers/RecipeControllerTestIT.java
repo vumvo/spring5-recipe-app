@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-public class RecipeControllerTest {
+public class RecipeControllerTestIT {
 
     @Mock
     RecipeService recipeService;
