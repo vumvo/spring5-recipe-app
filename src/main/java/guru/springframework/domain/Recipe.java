@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,17 +20,18 @@ public class Recipe {
     private String description;
     private Integer prepTime;
     private Integer cookTime;
-    private Integer serving;
+    private Integer servings;
     private String source;
     private String url;
+
     @Lob
-    private String direction;
+    private String directions;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    @Singular(value="ingredient")
+    @Builder.Default
     private Set<Ingredient> ingredients = new HashSet<>();
 
     @Singular(value="category")
@@ -45,13 +47,15 @@ public class Recipe {
     Difficulty difficulty;
 
     public void setNotes(Notes notes){
-        this.notes = notes;
-        notes.setRecipe(this);
+        if(notes != null) {
+            this.notes = notes;
+            notes.setRecipe(this);
+        }
     }
 
-    public Recipe addingIngredient(Ingredient ingredient) {
+    public Recipe addIngredient(Ingredient ingredient) {
         ingredient.setRecipe(this);
-        ingredients.add(ingredient);
+        this.ingredients.add(ingredient);
         return this;
     }
 }
