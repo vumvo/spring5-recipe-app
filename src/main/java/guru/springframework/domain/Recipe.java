@@ -31,7 +31,6 @@ public class Recipe {
     private Notes notes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    @Builder.Default
     private Set<Ingredient> ingredients = new HashSet<>();
 
     @Singular(value="category")

@@ -91,12 +91,46 @@ public class IngredientServiceImpl implements IngredientService {
 
             Recipe savedRecipe = recipeRepository.save(recipe);
 
-            //to do check for fail
-            return ingredientToIngredientCommand.convert(savedRecipe.getIngredients().stream()
+            Optional<Ingredient> savedIngredientOptional = savedRecipe.getIngredients().stream()
                     .filter(recipeIngredients -> recipeIngredients.getId().equals(command.getId()))
-                    .findFirst()
-                    .get());
-        }
+                    .findFirst();
 
+            if(!savedIngredientOptional.isPresent()){
+                savedIngredientOptional = savedRecipe.getIngredients().stream()
+                        .filter(recipeIngredient -> recipeIngredient.getDescription().equals(command.getDescription()))
+                        .filter(recipeIngredient -> recipeIngredient.getAmount().equals(command.getAmount()))
+                        .filter(recipeIngredient -> recipeIngredient.getUom().getId().equals(command.getUom().getId()))
+                        .findFirst();
+            }
+            //to do check for fail
+            return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteIngredientById(Long recipeId, Long ingredientId) {
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+
+        if(!recipeOptional.isPresent()){
+            //todo toss error if not found!
+            log.error("Recipe not found for id: " + recipeId);
+        } else {
+            log.info(String.format("found the recipeId %s", recipeId));
+            Recipe recipe = recipeOptional.get();
+
+            Optional<Ingredient> ingredientOptional = recipe.getIngredients().stream()
+                    .filter(ingredient -> ingredient.getId().equals(ingredientId))
+                    .findFirst();
+            if(ingredientOptional.isPresent()){
+                log.info(String.format("found the ingredientId %s", ingredientId));
+                Ingredient ingredientToBeDeleted = ingredientOptional.get();
+                ingredientToBeDeleted.setRecipe(null); //Have to set the recipe to Null to remove the relationship - my understand
+                recipe.getIngredients().remove(ingredientToBeDeleted); // Now remove the the ingredients from Recipe table
+                recipeRepository.save(recipe);
+            } else {
+                throw new RuntimeException(String.format("Unable to find the ingredient id %s", ingredientId));
+            }
+        }
     }
 }
